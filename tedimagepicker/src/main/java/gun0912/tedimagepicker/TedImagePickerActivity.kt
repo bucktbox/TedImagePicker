@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +16,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -75,6 +77,15 @@ internal class TedImagePickerActivity
         if (Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
             requestedOrientation = builder.screenOrientation
         }
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            // Edge-to-edge 대응
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+
+            // 시스템 바 색상 설정
+            window.statusBarColor = Color.TRANSPARENT
+            window.navigationBarColor = Color.TRANSPARENT
+        }
+
         startAnimation()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ted_image_picker)
         binding.imageCountFormat = builder.imageCountFormat

@@ -2,11 +2,14 @@ package gun0912.tedimagepicker.zoom
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -28,6 +31,15 @@ internal class TedImageZoomActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_zoom_out)
 
         ViewCompat.setTransitionName(binding.ivMedia, uri.toString())
+
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            // Edge-to-edge 대응
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+
+            // 시스템 바 색상 설정
+            window.statusBarColor = Color.TRANSPARENT
+            window.navigationBarColor = Color.TRANSPARENT
+        }
 
         supportPostponeEnterTransition()
         loadImage {
